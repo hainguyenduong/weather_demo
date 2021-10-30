@@ -83,13 +83,13 @@ node() {
                 echo "**************End Get Test case ID by issue key************"
 
                 echo "**************Add test case to a test Execution************"
-                def text = readFile "add_test_to_a_test_execution.sh"
+                text = readFile "add_test_to_a_test_execution.sh"
                 text = text.replace("{{TOKEN}}", env.token )
                 text = text.replace("{{TEST_CASE_ID}}", test_id )
                 text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
                 writeFile file: "add_test_to_a_test_execution.sh", text: text
-                def response_string = bat(script: "bash add_test_to_a_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
-                def jsonObj = readJSON text: response_string
+                response_string = bat(script: "bash add_test_to_a_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                jsonObj = readJSON text: response_string
                 //def test_id = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
                 echo "jsonObj is:  " + jsonObj
 
