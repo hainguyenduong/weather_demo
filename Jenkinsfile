@@ -92,9 +92,9 @@ node() {
                 text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
                 writeFile file: "get_test_run_by_test_case_id_and_test_exec_id.sh", text: text
                 
-                def response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 echo "response_string is:  " + response_string
-                def jsonObj = readJSON text: response_string
+                jsonObj = readJSON text: response_string
                 
                 def test_run_id = bat(script: "echo ${jsonObj.data.getTestRun.id}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
                 echo "TEST_RUN_ID is:  " + test_run_id
@@ -117,9 +117,9 @@ node() {
                 text = text.replace("{{TEST_RUN_STATUS}}", test_run_status ) // for the sake of the demo
                 writeFile file: "update_test_run_by_id.sh", text: text
                 
-                def response_string = bat(script: "bash update_test_run_by_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                response_string = bat(script: "bash update_test_run_by_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 echo "response_string is:  " + response_string
-                def jsonObj = readJSON text: response_string
+                jsonObj = readJSON text: response_string
                 
                 env.updateTestRunStatus = bat(script: "echo ${jsonObj.data.updateTestRunStatus}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
                 echo "updateTestRunStatus is:  " + env.updateTestRunStatus
