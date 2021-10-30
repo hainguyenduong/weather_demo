@@ -115,6 +115,8 @@ node() {
 
                 echo "**************update_test_run_status**************"
 
+                echo "parts[7]:  " + parts[7]
+
                 def test_run_status = "PASSED"
                 if(parts[7] == "FALSE"){
                     test_run_status = "FAILED"
@@ -126,7 +128,7 @@ node() {
                 echo "**************update_test_run_by_id**************"
                 text = readFile "update_test_run_by_id.sh"
                 text = text.replace("{{TOKEN}}", env.token )
-                text = text.replace("{{TEST_RUN_ID}}", env.TEST_RUN_ID )
+                text = text.replace("{{TEST_RUN_ID}}", test_run_id )
                 text = text.replace("{{TEST_RUN_STATUS}}", test_run_status ) // for the sake of the demo
                 writeFile file: "update_test_run_by_id.sh", text: text
                 
