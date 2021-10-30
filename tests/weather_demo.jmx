@@ -124,8 +124,8 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
         <stringProp name="ThreadGroup.num_threads">${__P(XRAY-77.threads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration">${__P(duration.seconds,0)}</stringProp>
-        <stringProp name="ThreadGroup.delay">${__P(startup.delay.seconds,0)}</stringProp>
+        <stringProp name="ThreadGroup.duration">0</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="TestPlan.comments">API Call current weather data</stringProp>
       </ThreadGroup>
@@ -346,8 +346,8 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
         <stringProp name="ThreadGroup.num_threads">${__P(XRAY-78.threads,1)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration">${__P(duration.seconds,0)}</stringProp>
-        <stringProp name="ThreadGroup.delay">${__P(startup.delay.seconds,0)}</stringProp>
+        <stringProp name="ThreadGroup.duration">0</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="TestPlan.comments">API Call hourly forecast data</stringProp>
       </ThreadGroup>

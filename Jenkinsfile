@@ -7,6 +7,7 @@ node() {
 
     stage("Prepare Workspace") {
         echo "==========================================Prepare Workspace=========================================="
+        cleanWs()
         if (env.jmeter_test_path== '') { // and/or whatever condition you want
                 currentBuild.result = 'ABORTED'
                 error('You have to input the test you want to run')
