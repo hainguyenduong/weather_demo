@@ -63,7 +63,7 @@ node() {
 
     stage('Analyze summary report and Add Test case to execution'){
         echo "==========================================Analyze summary report and Add Test case to execution=========================================="
-        fh = new File('./tests/summary-report.csv')
+        fh = new File('tests/summary-report.csv')
         def summary_report_content = fh.getText('utf-8')
          
         def data_iterator = parseCsv(summary_report_content, separator: ',', readFirstLine: true)
