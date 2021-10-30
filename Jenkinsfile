@@ -64,8 +64,9 @@ node() {
     stage('Analyze summary report and Add Test case to execution'){
         echo "==========================================Analyze summary report and Add Test case to execution=========================================="
 
-        File csvFile = new File("/tests/summary-report.csv")
-        csvFile.eachLine { line ->
+        def data  = readFile "tests/summary-report.csv"
+        def lines = data.readLines()
+        for (line in lines) {
             def parts = line.split(",")
             if(parts[2].contains(env.PROJECT_KEY)){               
                 def jiraKey = parts[2]
@@ -124,7 +125,6 @@ node() {
                 echo "**************end update_test_run_by_id**************"
 
             }
-            
         }
     }
     
