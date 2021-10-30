@@ -45,6 +45,7 @@ node() {
         writeFile file: "create_xray_test_execution.sh", text: text
         def response_string = bat(script: "bash create_xray_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
         def jsonObj = readJSON text: response_string
+        echo "jsonObj is:  " + jsonObj
         
         env.TEST_EXECUTION_KEY = bat(script: "echo ${jsonObj.key}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
         echo "TEST_EXECUTION_KEY is:  " + env.TEST_EXECUTION_KEY
