@@ -63,16 +63,12 @@ node() {
 
     stage('Analyze summary report and Add Test case to execution'){
         echo "==========================================Analyze summary report and Add Test case to execution=========================================="
-        //fh = new File('tests/summary-report.csv')
-        def fh = readFile "tests/summary-report.csv"
-        //def summary_report_content = fh.getText('utf-8')
-         
-        def data_iterator = parseCsv(fh, separator: ',', readFirstLine: true)
 
-        for (line in data_iterator) {
-            // sum += line[2] as Integer
-            if(line[2].contains(env.PROJECT_KEY)){               
-                def jiraKey = line[2]
+        File csvFile = new File("tests/summary-report.csv")
+        csvFile.eachLine { line ->
+            def parts = line.split(",")
+            if(parts[2].contains(env.PROJECT_KEY)){               
+                def jiraKey = parts[2]
                 echo "JIRA key is: " + jiraKey
                 echo "**************Get Test case ID by issue key************"
                 def text = readFile "get_test_case_id_by_issue_key.sh"
@@ -105,7 +101,7 @@ node() {
                 echo "**************update_test_run_status**************"
 
                 def test_run_status = "PASSED"
-                if(line[7] == "FALSE"){
+                if(parts[7] == "FALSE"){
                     test_run_status = "FAILED"
                 }
                 
@@ -128,6 +124,7 @@ node() {
                 echo "**************end update_test_run_by_id**************"
 
             }
+            
         }
     }
     
