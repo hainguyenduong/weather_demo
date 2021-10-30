@@ -29,8 +29,8 @@ node() {
     }
     stage('Save the Artifacts') {
         echo "==========================================Save the Artifacts=========================================="
-        archiveArtifacts artifacts: "./tests/summary-report.csv", followSymlinks: false
-        archiveArtifacts artifacts: "./tests/results.jt", followSymlinks: false
+        archiveArtifacts artifacts: "tests/summary-report.csv", followSymlinks: false
+        archiveArtifacts artifacts: "tests/results.jt", followSymlinks: false
     }
     stage('JIRA Xray authentication') {
         echo "JIRA Xray authentication"
