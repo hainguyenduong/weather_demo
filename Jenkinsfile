@@ -44,6 +44,7 @@ node() {
         text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
         writeFile file: "create_xray_test_execution.sh", text: text
         def response_string = bat(script: "bash create_xray_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+        echo "response_string is:  " + response_string
         def jsonObj = readJSON text: response_string
         echo "jsonObj is:  " + jsonObj
         
