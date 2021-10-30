@@ -1,0 +1,2 @@
+#!/bin/bash
+curl --location --request POST "https://xray.cloud.xpand-it.com/api/v1/authenticate" --header "Content-Type: application/json" --data-raw "{\"client_id\": \"A5656CE1738B4C3E96B9F0ABD61119E9\",\"client_secret\": \"aff8b0004fd03d3ef54cf17f5da3c3e20e81b25ffb3599554b1fae865fa03623\"}"

@@ -1,0 +1,29 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,Hostname,IdleTime,Connect
+1635596352924,454,Testname and RunId properties,200,OK,setUp Thread Group 1-1,text,true,,0,0,1,1,null,0,Admin,0,0
+1635596353398,116,XRAY-80,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,795,571,1,1,null,0,Admin,82,65
+1635596353453,116,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found 'London'",795,571,1,1,http://api.openweathermap.org/data/2.5/weather?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,115,Admin,0,65
+1635596353596,147,XRAY-81,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,812,577,1,1,null,0,Admin,4,0
+1635596353597,147,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found '139'",812,577,1,1,http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=4dc0841cab6debf914fceb1910dc6bc9,147,Admin,0,0
+1635596353752,124,XRAY-79,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-78 2-1,,false,,16418,573,1,1,null,0,Admin,6,39
+1635596353752,124,/data/2.5/weather,200,OK,XRAY-78 2-1,text,false,"Value expected to be 'NONE', but found 'London'",16418,573,1,1,http://api.openweathermap.org/data/2.5/forecast/?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,85,Admin,0,39
+1635596450790,464,Testname and RunId properties,200,OK,setUp Thread Group 1-1,text,true,,0,0,1,1,null,0,Admin,0,0
+1635596451277,109,XRAY-80,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,795,571,1,1,null,0,Admin,82,61
+1635596451331,109,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found 'London'",795,571,1,1,http://api.openweathermap.org/data/2.5/weather?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,106,Admin,0,61
+1635596451468,42,XRAY-81,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,812,577,1,1,null,0,Admin,1,0
+1635596451469,42,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found '139'",812,577,1,1,http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=4dc0841cab6debf914fceb1910dc6bc9,42,Admin,0,0
+1635596451514,119,XRAY-79,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-78 2-1,,false,,16418,573,1,1,null,0,Admin,4,36
+1635596451516,119,/data/2.5/weather,200,OK,XRAY-78 2-1,text,false,"Value expected to be 'NONE', but found 'London'",16418,573,1,1,http://api.openweathermap.org/data/2.5/forecast/?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,78,Admin,0,36
+1635596541954,450,Testname and RunId properties,200,OK,setUp Thread Group 1-1,text,true,,0,0,1,1,null,0,Admin,0,0
+1635596542427,127,XRAY-80,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,796,571,1,1,null,0,Admin,78,69
+1635596542481,127,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found 'London'",796,571,1,1,http://api.openweathermap.org/data/2.5/weather?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,125,Admin,0,69
+1635596542633,52,XRAY-81,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,812,577,1,1,null,0,Admin,1,0
+1635596542633,52,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found '139'",812,577,1,1,http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=4dc0841cab6debf914fceb1910dc6bc9,52,Admin,0,0
+1635596542689,121,XRAY-79,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-78 2-1,,false,,16418,573,1,1,null,0,Admin,8,40
+1635596542690,121,/data/2.5/weather,200,OK,XRAY-78 2-1,text,false,"Value expected to be 'NONE', but found 'London'",16418,573,1,1,http://api.openweathermap.org/data/2.5/forecast/?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,84,Admin,0,40
+1635597053521,470,Testname and RunId properties,200,OK,setUp Thread Group 1-1,text,true,,0,0,1,1,null,0,Admin,0,0
+1635597054012,191,XRAY-80,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,796,571,1,1,null,0,Admin,89,60
+1635597054069,191,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found 'London'",796,571,1,1,http://api.openweathermap.org/data/2.5/weather?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,188,Admin,0,60
+1635597054292,42,XRAY-81,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,812,577,1,1,null,0,Admin,1,0
+1635597054292,42,/data/2.5/weather,200,OK,XRAY-77 1-1,text,false,"Value expected to be 'NONE', but found '139'",812,577,1,1,http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=4dc0841cab6debf914fceb1910dc6bc9,42,Admin,0,0
+1635597054337,130,XRAY-79,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-78 2-1,,false,,16418,573,1,1,null,0,Admin,10,43
+1635597054338,130,/data/2.5/weather,200,OK,XRAY-78 2-1,text,false,"Value expected to be 'NONE', but found 'London'",16418,573,1,1,http://api.openweathermap.org/data/2.5/forecast/?q=London&appid=4dc0841cab6debf914fceb1910dc6bc9,87,Admin,0,43
