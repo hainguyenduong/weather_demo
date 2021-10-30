@@ -68,6 +68,7 @@ node() {
         def data  = readFile "tests/summary-report.csv"
         def lines = data.readLines()
         for (line in lines) {
+            echo "******line is: " + line
             def parts = line.split(",")
             if(parts[2].contains(env.PROJECT_KEY)){               
                 def jiraKey = parts[2]
@@ -76,8 +77,8 @@ node() {
                 def text = readFile "get_test_case_id_by_issue_key.sh"
                 text = text.replace("{{TOKEN}}", env.token )
                 text = text.replace("{{TEST_KEY}}", jiraKey )
-                writeFile file: "get_test_case_id_by_issue_key.sh", text: text
-                def response_string = bat(script: "bash get_test_case_id_by_issue_key.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                writeFile file: "get_test_case_id_by_issue_key_execute.sh", text: text
+                def response_string = bat(script: "bash get_test_case_id_by_issue_key_execute.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 def jsonObj = readJSON text: response_string
                 def test_id = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
                 echo "TEST_ID is:  " + test_id
@@ -88,8 +89,8 @@ node() {
                 text = text.replace("{{TOKEN}}", env.token )
                 text = text.replace("{{TEST_CASE_ID}}", test_id )
                 text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
-                writeFile file: "add_test_to_a_test_execution.sh", text: text
-                response_string = bat(script: "bash add_test_to_a_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                writeFile file: "add_test_to_a_test_execution_execute.sh", text: text
+                response_string = bat(script: "bash add_test_to_a_test_execution_execute.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 jsonObj = readJSON text: response_string
                 //def test_id = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
                 echo "jsonObj is:  " + jsonObj
@@ -104,9 +105,9 @@ node() {
                 text = text.replace("{{TEST_CASE_ID}}", test_id )
                 text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
 
-                writeFile file: "get_test_run_by_test_case_id_and_test_exec_id.sh", text: text
+                writeFile file: "get_test_run_by_test_case_id_and_test_exec_id_execute.sh", text: text
                 
-                response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id_execute.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 echo "response_string is:  " + response_string
                 jsonObj = readJSON text: response_string
                 
@@ -131,9 +132,9 @@ node() {
                 text = text.replace("{{TOKEN}}", env.token )
                 text = text.replace("{{TEST_RUN_ID}}", test_run_id )
                 text = text.replace("{{TEST_RUN_STATUS}}", test_run_status ) // for the sake of the demo
-                writeFile file: "update_test_run_by_id.sh", text: text
+                writeFile file: "update_test_run_by_id_execute.sh", text: text
                 
-                response_string = bat(script: "bash update_test_run_by_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                response_string = bat(script: "bash update_test_run_by_id_execute.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 echo "response_string is:  " + response_string
                 jsonObj = readJSON text: response_string
                 
