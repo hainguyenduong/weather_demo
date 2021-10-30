@@ -82,13 +82,27 @@ node() {
                 echo "TEST_ID is:  " + test_id
                 echo "**************End Get Test case ID by issue key************"
 
+                echo "**************Add test case to a test Execution************"
+                def text = readFile "add_test_to_a_test_execution.sh"
+                text = text.replace("{{TOKEN}}", env.token )
+                text = text.replace("{{TEST_CASE_ID}}", test_id )
+                text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
+                writeFile file: "add_test_to_a_test_execution.sh", text: text
+                def response_string = bat(script: "bash add_test_to_a_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                def jsonObj = readJSON text: response_string
+                //def test_id = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+                echo "jsonObj is:  " + jsonObj
+
+                echo "**************End add test case to a test Execution************"
+
+
 
                 echo "**************Get test run ID************"
                 text = readFile "get_test_run_by_test_case_id_and_test_exec_id.sh"
                 text = text.replace("{{TOKEN}}", env.token )
                 text = text.replace("{{TEST_CASE_ID}}", test_id )
                 text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
-                text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
+
                 writeFile file: "get_test_run_by_test_case_id_and_test_exec_id.sh", text: text
                 
                 response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
