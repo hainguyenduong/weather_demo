@@ -30,7 +30,7 @@ node() {
     stage('Save the Artifacts') {
         echo "==========================================Save the Artifacts=========================================="
         archiveArtifacts artifacts: "tests/summary-report.csv", followSymlinks: false
-        archiveArtifacts artifacts: "tests/results.jt", followSymlinks: false
+        archiveArtifacts artifacts: "tests/result.jt", followSymlinks: false
     }
     stage('JIRA Xray authentication') {
         echo "JIRA Xray authentication"
@@ -54,7 +54,7 @@ node() {
     stage('Attach report to new created JIRA execution'){
         echo "==========================================Attach report to new created JIRA execution=========================================="
         def attachment1 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/summary-report.csv', site: 'nguyenduonghai'
-        def attachment2 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/results.jt', site: 'nguyenduonghai'
+        def attachment2 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/result.jt', site: 'nguyenduonghai'
         echo "=========Attachment 1: " + attachment1.data.toString()
         echo "=========Attachment 2: " + attachment2.data.toString()
     }
