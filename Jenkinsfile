@@ -48,15 +48,15 @@ node() {
         def jsonObj = readJSON text: response_string
         echo "jsonObj is:  " + jsonObj
         
-        env.TEST_EXECUTION_KEY = bat(script: "echo ${jsonObj.key}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
-        echo "TEST_EXECUTION_KEY is:  " + env.TEST_EXECUTION_KEY
-        env.TEST_EXECUTION_ID = bat(script: "echo ${jsonObj.id}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+        // env.TEST_EXECUTION_KEY = bat(script: "echo ${jsonObj.key}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+        // echo "TEST_EXECUTION_KEY is:  " + env.TEST_EXECUTION_KEY
+        env.TEST_EXECUTION_ID = bat(script: "echo ${jsonObj.data.createTestExecution.testExecution.issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
         echo "TEST_EXECUTION_ID is:  " + env.TEST_EXECUTION_ID
     }
     stage('Attach report to new created JIRA execution'){
         echo "==========================================Attach report to new created JIRA execution=========================================="
-        def attachment1 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/summary-report.csv', site: 'nguyenduonghai'
-        def attachment2 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/result.jtl', site: 'nguyenduonghai'
+        def attachment1 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_ID, file: './tests/summary-report.csv', site: 'nguyenduonghai'
+        def attachment2 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_ID, file: './tests/result.jtl', site: 'nguyenduonghai'
         echo "=========Attachment 1: " + attachment1.data.toString()
         echo "=========Attachment 2: " + attachment2.data.toString()
     }
