@@ -25,7 +25,7 @@ node() {
         echo "==========================================JMeter run Tests=========================================="
         def jmeter_test_path = env.jmeter_test_path // example: tests/weather_demo.jmx
         echo "jmeter_test_path is :"  + env.jmeter_test_path 
-        bat(script: "bash authentication.sh ${jmeter_test_path}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+        bat(script: """bash authentication.sh ${jmeter_test_path}""", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
     }
     stage('Save the Artifacts') {
         echo "==========================================Save the Artifacts=========================================="
