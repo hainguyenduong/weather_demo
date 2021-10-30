@@ -64,7 +64,7 @@ node() {
     stage('Analyze summary report and Add Test case to execution'){
         echo "==========================================Analyze summary report and Add Test case to execution=========================================="
 
-        File csvFile = new File("./tests/summary-report.csv")
+        File csvFile = new File("/tests/summary-report.csv")
         csvFile.eachLine { line ->
             def parts = line.split(",")
             if(parts[2].contains(env.PROJECT_KEY)){               
