@@ -65,9 +65,9 @@ node() {
         echo "==========================================Analyze summary report and Add Test case to execution=========================================="
         //fh = new File('tests/summary-report.csv')
         def fh = readFile "tests/summary-report.csv"
-        def summary_report_content = fh.getText('utf-8')
+        //def summary_report_content = fh.getText('utf-8')
          
-        def data_iterator = parseCsv(summary_report_content, separator: ',', readFirstLine: true)
+        def data_iterator = parseCsv(fh, separator: ',', readFirstLine: true)
 
         for (line in data_iterator) {
             // sum += line[2] as Integer
