@@ -1,9 +1,9 @@
 //use JsonSlurperClassic because it produces HashMap that could be serialized by pipeline
 import groovy.json.JsonSlurperClassic
+import static com.xlson.groovycsv.CsvParser.parseCsv
 node() {
 
     def repoURL = env.repoURL
-    def jiraKey= env.jiraKey  // Test case you want to run test
 
 
     stage("Prepare Workspace") {
@@ -33,11 +33,15 @@ node() {
         archiveArtifacts artifacts: "reports/summary-report.csv", followSymlinks: false
         archiveArtifacts artifacts: "results.jtl", followSymlinks: false
     }
+    stage('JIRA Xray authentication') {
+        echo "JIRA Xray authentication"
+        env.token = bat(script: "bash authentication.sh", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+        echo "token is :"  + env.token    
+    }
     stage('Create JIRA Xray test Execution') {
-        echo "Create JIRA Xray test Execution"
+        echo "==========================================Create JIRA Xray test Execution=========================================="
         def text = readFile "create_xray_test_execution.sh"
         text = text.replace("{{TOKEN}}", env.token )
-        text = text.replace("{{TEST}}", env.jiraKey )
         text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
         writeFile file: "create_xray_test_execution.sh", text: text
         def response_string = bat(script: "bash create_xray_test_execution.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
@@ -48,76 +52,81 @@ node() {
         env.TEST_EXECUTION_ID = bat(script: "echo ${jsonObj.id}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
         echo "TEST_EXECUTION_ID is:  " + env.TEST_EXECUTION_ID
     }
-
-
-
-
-
-
-
-    stage('Attach report to JIRA'){
-        echo "==========================================Attach report to JIRA=========================================="
-        def attachment1 = jiraUploadAttachment idOrKey: jiraKey, file: './tests/summary-report.csv', site: 'nguyenduonghai'
-        def attachment2 = jiraUploadAttachment idOrKey: jiraKey, file: 'results.jt', site: 'nguyenduonghai'
+    stage('Attach report to new created JIRA execution'){
+        echo "==========================================Attach report to new created JIRA execution=========================================="
+        def attachment1 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/summary-report.csv', site: 'nguyenduonghai'
+        def attachment2 = jiraUploadAttachment idOrKey: env.TEST_EXECUTION_KEY, file: './tests/results.jt', site: 'nguyenduonghai'
         echo "=========Attachment 1: " + attachment1.data.toString()
         echo "=========Attachment 2: " + attachment2.data.toString()
     }
-    stage('JIRA Xray authentication') {
-        echo "JIRA Xray authentication"
-        env.token = bat(script: "bash authentication.sh", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
-        echo "token is :"  + env.token    
-    }
-    stage('Get Test case ID by issue key') {
-        echo "Get Test case ID by issue key"
-        
-        def text = readFile "get_test_case_id_by_issue_key.sh"
-        text = text.replace("{{TOKEN}}", env.token )
-        text = text.replace("{{TEST_KEY}}", env.jiraKey )
-        writeFile file: "get_test_case_id_by_issue_key.sh", text: text
-        def response_string = bat(script: "bash get_test_case_id_by_issue_key.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
-        def jsonObj = readJSON text: response_string
 
-        env.TEST_ID = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
-        echo "TEST_ID is:  " + env.TEST_ID 
-    }
-    
+    stage('Analyze summary report and Add Test case to execution'){
+        echo "==========================================Analyze summary report and Add Test case to execution=========================================="
+        fh = new File('./tests/summary-report.csv')
+        def summary_report_content = fh.getText('utf-8')
+         
+        def data_iterator = parseCsv(summary_report_content, separator: ',', readFirstLine: true)
 
-    stage('Get test run ID') {
-        echo "Get test run ID"
-        def text = readFile "get_test_run_by_test_case_id_and_test_exec_id.sh"
-        text = text.replace("{{TOKEN}}", env.token )
-        text = text.replace("{{TEST_CASE_ID}}", env.TEST_ID )
-        text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
-        text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
-        writeFile file: "get_test_run_by_test_case_id_and_test_exec_id.sh", text: text
-        
-        def response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
-        echo "response_string is:  " + response_string
-        def jsonObj = readJSON text: response_string
-        
-        env.TEST_RUN_ID = bat(script: "echo ${jsonObj.data.getTestRun.id}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
-        echo "TEST_RUN_ID is:  " + env.TEST_RUN_ID
-
-    }
-    stage('Update test run ID') {
-        echo "update_test_run_by_id"
-        def test_run_status = bat(script: "bash get_status_evaluation_criteria.sh reports/result4_1.csv", returnStdout: true).trim().readLines().drop(1).join(" ")
-        echo "test_run_status is:  " + test_run_status
+        for (line in data_iterator) {
+            // sum += line[2] as Integer
+            if(line[2].contains(env.PROJECT_KEY)){               
+                def jiraKey = line[2]
+                echo "JIRA key is: " + jiraKey
+                echo "**************Get Test case ID by issue key************"
+                def text = readFile "get_test_case_id_by_issue_key.sh"
+                text = text.replace("{{TOKEN}}", env.token )
+                text = text.replace("{{TEST_KEY}}", env.jiraKey )
+                writeFile file: "get_test_case_id_by_issue_key.sh", text: text
+                def response_string = bat(script: "bash get_test_case_id_by_issue_key.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                def jsonObj = readJSON text: response_string
+                def test_id = bat(script: "echo ${jsonObj.data.getTests.results[0].issueId}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+                echo "TEST_ID is:  " + test_id
+                echo "**************End Get Test case ID by issue key************"
 
 
-        def text = readFile "update_test_run_by_id.sh"
-        text = text.replace("{{TOKEN}}", env.token )
-        text = text.replace("{{TEST_RUN_ID}}", env.TEST_RUN_ID )
-        text = text.replace("{{TEST_RUN_STATUS}}", test_run_status ) // for the sake of the demo
-        writeFile file: "update_test_run_by_id.sh", text: text
-        
-        def response_string = bat(script: "bash update_test_run_by_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
-        echo "response_string is:  " + response_string
-        def jsonObj = readJSON text: response_string
-        
-        env.updateTestRunStatus = bat(script: "echo ${jsonObj.data.updateTestRunStatus}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
-        echo "updateTestRunStatus is:  " + env.updateTestRunStatus
+                echo "**************Get test run ID************"
+                text = readFile "get_test_run_by_test_case_id_and_test_exec_id.sh"
+                text = text.replace("{{TOKEN}}", env.token )
+                text = text.replace("{{TEST_CASE_ID}}", test_id )
+                text = text.replace("{{TEST_EXECUTION_ID}}", env.TEST_EXECUTION_ID )
+                text = text.replace("{{BUILD_TIME}}",env.BUILD_TIME )
+                writeFile file: "get_test_run_by_test_case_id_and_test_exec_id.sh", text: text
+                
+                def response_string = bat(script: "bash get_test_run_by_test_case_id_and_test_exec_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                echo "response_string is:  " + response_string
+                def jsonObj = readJSON text: response_string
+                
+                def test_run_id = bat(script: "echo ${jsonObj.data.getTestRun.id}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+                echo "TEST_RUN_ID is:  " + test_run_id
+                echo "**************End Get test run ID************"
 
+                echo "**************update_test_run_status**************"
+
+                def test_run_status = "PASSED"
+                if(line[7] == "FALSE"){
+                    test_run_status = "FAILED"
+                }
+                
+                echo "test_run_status is:  " + test_run_status
+                echo "**************end update_test_run_status**************"
+
+                echo "**************update_test_run_by_id**************"
+                text = readFile "update_test_run_by_id.sh"
+                text = text.replace("{{TOKEN}}", env.token )
+                text = text.replace("{{TEST_RUN_ID}}", env.TEST_RUN_ID )
+                text = text.replace("{{TEST_RUN_STATUS}}", test_run_status ) // for the sake of the demo
+                writeFile file: "update_test_run_by_id.sh", text: text
+                
+                def response_string = bat(script: "bash update_test_run_by_id.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
+                echo "response_string is:  " + response_string
+                def jsonObj = readJSON text: response_string
+                
+                env.updateTestRunStatus = bat(script: "echo ${jsonObj.data.updateTestRunStatus}", returnStdout: true).trim().replace('"','').readLines().drop(1).join(" ")
+                echo "updateTestRunStatus is:  " + env.updateTestRunStatus
+                echo "**************end update_test_run_by_id**************"
+
+            }
+        }
     }
     
 }
