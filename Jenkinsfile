@@ -1,6 +1,5 @@
 //use JsonSlurperClassic because it produces HashMap that could be serialized by pipeline
 import groovy.json.JsonSlurperClassic;
-import static com.xlson.groovycsv.CsvParser.parseCsv;
 node() {
 
     def repoURL = env.repoURL
