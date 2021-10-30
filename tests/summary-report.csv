@@ -1,5 +1,0 @@
-timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,Hostname,IdleTime,Connect
-1635597400649,458,Testname and RunId properties,200,OK,setUp Thread Group 1-1,text,true,,0,0,1,1,null,0,Admin,0,0
-1635597401130,130,XRAY-80,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,796,571,1,1,null,0,Admin,79,72
-1635597401346,55,XRAY-81,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-77 1-1,,false,,803,577,1,1,null,0,Admin,2,0
-1635597401408,156,XRAY-79,200,"Number of samples in transaction : 1, number of failing samples : 1",XRAY-78 2-1,,false,,16423,573,1,1,null,0,Admin,6,50
