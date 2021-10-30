@@ -117,7 +117,10 @@ node() {
 
                 echo "**************update_test_run_status**************"
 
+                echo "parts[5]:  " + parts[5]
+                echo "parts[6]:  " + parts[6]
                 echo "parts[7]:  " + parts[7]
+                echo "parts[8]:  " + parts[8]
 
                 def test_run_status = "PASSED"
                 if(parts[7] == "FALSE"){
