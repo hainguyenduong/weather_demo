@@ -74,7 +74,7 @@ node() {
                 echo "**************Get Test case ID by issue key************"
                 def text = readFile "get_test_case_id_by_issue_key.sh"
                 text = text.replace("{{TOKEN}}", env.token )
-                text = text.replace("{{TEST_KEY}}", env.jiraKey )
+                text = text.replace("{{TEST_KEY}}", jiraKey )
                 writeFile file: "get_test_case_id_by_issue_key.sh", text: text
                 def response_string = bat(script: "bash get_test_case_id_by_issue_key.sh", returnStdout: true).trim().readLines().drop(1).join(" ")
                 def jsonObj = readJSON text: response_string
