@@ -216,7 +216,7 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
             <hashTree/>
             <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
               <stringProp name="JSON_PATH">$.name</stringProp>
-              <stringProp name="EXPECTED_VALUE">${__P(TC0001.001.city,NONE)}</stringProp>
+              <stringProp name="EXPECTED_VALUE">${__P(XRAY-80.city,NONE)}</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
               <boolProp name="EXPECT_NULL">false</boolProp>
               <boolProp name="INVERT">false</boolProp>
@@ -438,7 +438,7 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
             <hashTree/>
             <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
               <stringProp name="JSON_PATH">$.city.name</stringProp>
-              <stringProp name="EXPECTED_VALUE">${__P(TC0002.001.city,NONE)}</stringProp>
+              <stringProp name="EXPECTED_VALUE">${__P(XRAY-79.city,NONE)}</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
               <boolProp name="EXPECT_NULL">false</boolProp>
               <boolProp name="INVERT">false</boolProp>
