@@ -358,7 +358,7 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
           <stringProp name="TestPlan.comments">API Call hourly forecast data, by city name - Success</stringProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${__P(api.current.weather.path,NONE)}" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Step 1: Call API forecast hourly with q parameter" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="q" elementType="HTTPArgument">
@@ -390,10 +390,9 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            <stringProp name="TestPlan.comments">2.1 Add Entertainment Plus</stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Code should be 200" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="49586">200</stringProp>
               </collectionProp>
@@ -436,7 +435,7 @@ println(&quot;test.runId: &quot; + props.get(&quot;test.runId&quot;) )
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="City name should be correct" enabled="true">
               <stringProp name="JSON_PATH">$.city.name</stringProp>
               <stringProp name="EXPECTED_VALUE">${__P(XRAY-79.city,NONE)}</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
